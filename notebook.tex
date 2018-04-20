@@ -141,7 +141,7 @@
     \def\gt{>}
     \def\lt{<}
     % Document parameters
-    \title{polyfit\_lsubs}
+    \title{Lecture08\_Dynamics}
     
     
     
@@ -280,127 +280,588 @@
     
 
     
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}1}]:} \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
-        \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
-\end{Verbatim}
+    \section{8. Dynamics of Planetary Atmospheres: Part
+I}\label{dynamics-of-planetary-atmospheres-part-i}
 
+\emph{Paul O. Hayne}
 
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}65}]:} \PY{n}{n} \PY{o}{=} \PY{l+m+mi}{3} \PY{c+c1}{\PYZsh{} degree of polynomial}
-         \PY{n}{ey} \PY{o}{=} \PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{30}\PY{p}{,}\PY{l+m+mi}{60}\PY{p}{,}\PY{l+m+mi}{90}\PY{p}{,}\PY{l+m+mi}{120}\PY{p}{,}\PY{l+m+mi}{150}\PY{p}{,}\PY{l+m+mi}{180}\PY{p}{,}\PY{l+m+mi}{210}\PY{p}{,}\PY{l+m+mi}{240}\PY{p}{,}\PY{l+m+mi}{270}\PY{p}{,}\PY{l+m+mi}{300}\PY{p}{,}\PY{l+m+mi}{330}\PY{p}{,}\PY{l+m+mi}{360}\PY{p}{)} \PY{c+c1}{\PYZsh{}L\PYZus{}s array}
-         \PY{n}{ey2} \PY{o}{=} \PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mf}{61.2}\PY{p}{,}\PY{l+m+mf}{126.6}\PY{p}{,}\PY{l+m+mf}{193.3}\PY{p}{,}\PY{l+m+mf}{257.8}\PY{p}{,}\PY{l+m+mf}{317.5}\PY{p}{,}\PY{l+m+mf}{371.9}\PY{p}{,}\PY{l+m+mf}{421.6}\PY{p}{,}\PY{l+m+mf}{468.5}\PY{p}{,}\PY{l+m+mf}{514.6}\PY{p}{,}\PY{l+m+mf}{562.0}\PY{p}{,}\PY{l+m+mf}{612.9}\PY{p}{,}\PY{l+m+mf}{668.6}\PY{p}{)} \PY{c+c1}{\PYZsh{}Sol array}
-         \PY{n}{eyf} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{polyfit}\PY{p}{(}\PY{n}{ey}\PY{p}{,}\PY{n}{ey2}\PY{p}{,}\PY{n}{n}\PY{p}{)} \PY{c+c1}{\PYZsh{}polynomial fit in third degree}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}66}]:} \PY{n+nb}{print}\PY{p}{(}\PY{n}{eyf}\PY{p}{)}
-\end{Verbatim}
-
+Motions in planetary atmospheres are governed fundamentally by force
+balance. Different forces are dominant in different situations, so
+usually the first step in tackling a problem in atmospheric dynamics is
+to identify the most and least important of these forces for a given
+system and timescale. Once we identify the appropriate dynamical regime,
+we can solve the equations of motion (either analytically or
+numerically, i.e. with a computer) to describe the resultant flow. Fluid
+dynamics can be a complex and intimidating subject. Fortunately, many
+phenomena in planetary atmospheres can be accurately described and
+understood using a simplified set of equations appropriate to a
+particular regime.
 
     \begin{Verbatim}[commandchars=\\\{\}]
-[  3.02706553e-06  -2.80894106e-03   2.48058233e+00  -6.31401099e+00]
-
-    \end{Verbatim}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}67}]:} \PY{n}{ls} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{360}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)} \PY{c+c1}{\PYZsh{} regular grid of Ls values}
-         \PY{n}{sol} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{polyval}\PY{p}{(}\PY{n}{eyf}\PY{p}{,} \PY{n}{ls}\PY{p}{)} \PY{c+c1}{\PYZsh{} use polynomial function to find sol values}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}68}]:} \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{ey}\PY{p}{,} \PY{n}{ey2}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{+}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-         \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{ls}\PY{p}{,} \PY{n}{sol}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-         \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{mathrm}\PY{l+s+si}{\PYZob{}L\PYZus{}s\PYZcb{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,} \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sol}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}11}]:} \PY{c+c1}{\PYZsh{} Toggle code on/off}
+         \PY{k+kn}{from} \PY{n+nn}{IPython}\PY{n+nn}{.}\PY{n+nn}{display} \PY{k}{import} \PY{n}{HTML}
+         \PY{c+c1}{\PYZsh{} This script provides a button to toggle display code on/off}
+         \PY{n}{HTML}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}\PYZsq{}\PYZsq{}}\PY{l+s+s1}{\PYZlt{}script\PYZgt{} code\PYZus{}show=true; }
+         \PY{l+s+s1}{function code\PYZus{}toggle() }\PY{l+s+s1}{\PYZob{}}
+         \PY{l+s+s1}{ if (code\PYZus{}show)}\PY{l+s+s1}{\PYZob{}}
+         \PY{l+s+s1}{ \PYZdl{}(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{div.input}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{).hide();}
+         \PY{l+s+s1}{ \PYZcb{} else }\PY{l+s+s1}{\PYZob{}}
+         \PY{l+s+s1}{ \PYZdl{}(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{div.input}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{).show();}
+         \PY{l+s+s1}{ \PYZcb{}}
+         \PY{l+s+s1}{ code\PYZus{}show = !code\PYZus{}show}
+         \PY{l+s+s1}{\PYZcb{} }
+         \PY{l+s+s1}{\PYZdl{}( document ).ready(code\PYZus{}toggle);}
+         \PY{l+s+s1}{    \PYZlt{}/script\PYZgt{}}
+         \PY{l+s+s1}{    \PYZlt{}form action=}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{javascript:code\PYZus{}toggle()}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{\PYZgt{}\PYZlt{}input type=}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{submit}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{ value=}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{Toggle code on/off}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{\PYZgt{}\PYZlt{}/form\PYZgt{}}\PY{l+s+s1}{\PYZsq{}\PYZsq{}\PYZsq{}}\PY{p}{)}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}68}]:} (Text(0.5,0,'\$\textbackslash{}\textbackslash{}mathrm\{L\_s\}\$'), Text(0,0.5,'Sol'))
+{\color{outcolor}Out[{\color{outcolor}11}]:} <IPython.core.display.HTML object>
 \end{Verbatim}
             
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{k+kn}{from} \PY{n+nn}{IPython}\PY{n+nn}{.}\PY{n+nn}{display} \PY{k}{import} \PY{n}{Image}\PY{p}{,} \PY{n}{HTML}
+        \PY{n}{Image}\PY{p}{(}\PY{n}{filename}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{/Users/paha3326/main/Teaching/ASTR3720/hayne/lectures/animations/jupiter/jupiter\PYZhy{}voyager.gif.png}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{width}\PY{o}{=}\PY{l+m+mi}{250}\PY{p}{)}
+\end{Verbatim}
+
+\texttt{\color{outcolor}Out[{\color{outcolor}2}]:}
+    
     \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_4_1.png}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_2_0.png}
     \end{center}
     { \hspace*{\fill} \\}
     
+
+    \textbf{Figure 8.1:} One month of images of Jupiter taken by NASA's
+Voyager-1 spacecraft in January, 1979. The field of view is roughly
+fixed on the "Great Red Spot" in the southern mid-latitudes, which
+appears stationary despite the \$\sim\$10-hour rotation period. This
+effect was created by using images acquired every 10 hr, with Jupiter at
+the same local time in each frame.
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+    \subsection{8.1 Fundamentals of rotating
+fluids}\label{fundamentals-of-rotating-fluids}
+
+All planets rotate, as do their atmospheres. Fluid motions within the
+atmosphere can be strongly affected by planetary rotation. So, we need
+some tools to handle non-inertial forces. First, we describe the forces
+affecting motion of a fluid in a rotating reference frame. After
+identifying each force term, we look at ways to determine their relative
+importance in order to solve problems.
+
+\paragraph{Conventions:}\label{conventions}
+
+Positions on the planet are given by three coordinates: \(X, Y, Z\),
+with the planet's center of mass as the origin. For a spherical planet
+with radius \(R\), the position vector is
+\(\vec{R} = (X,Y,Z) = R(\cos\phi\cos\lambda, \cos\phi\sin\lambda, \sin\phi)\),
+where \(\phi\) and \(\lambda\) are the latitude and longitude,
+respectively. Unit vectors at each location \(\vec{R}\) define a local
+coordinate system, pointing east-to-west (\(\hat{i}\)), south-to-north
+(\(\hat{j}\)), and down-to-up (\(\hat{k}\)). Positions in this local
+(rotating) reference frame are specified with respect to the local
+coordinate system:
+\(\vec{x} = (x,y,z) = x\hat{i} + y\hat{j} + z\hat{k}\). Wind velocity is
+also a vector quantity,
+\(\vec{v} = d\vec{x}/dt = (u,v,w) = u\hat{i} + v\hat{j} + w\hat{k}\).
+
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}69}]:} \PY{c+c1}{\PYZsh{} Plot difference between fit and data}
-         \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{ey}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{polyval}\PY{p}{(}\PY{n}{eyf}\PY{p}{,} \PY{n}{ey}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{n}{ey2}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-         \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{ls}\PY{p}{,} \PY{n}{ls}\PY{o}{*}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}\PYZhy{}k}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-         \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{mathrm}\PY{l+s+si}{\PYZob{}L\PYZus{}s\PYZcb{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,} \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{Delta(}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{mathrm}\PY{l+s+si}{\PYZob{}Sol\PYZcb{}}\PY{l+s+s1}{)\PYZdl{} Error}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}3}]:} \PY{n}{Image}\PY{p}{(}\PY{n}{filename}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{/Users/paha3326/main/Teaching/ASTR3720/hayne/lectures/lecture18/cartesian\PYZhy{}coords.png}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{width}\PY{o}{=}\PY{l+m+mi}{250}\PY{p}{)}
 \end{Verbatim}
 
-
-\begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}69}]:} (Text(0.5,0,'\$\textbackslash{}\textbackslash{}mathrm\{L\_s\}\$'), Text(0,0.5,'\$\textbackslash{}\textbackslash{}Delta(\textbackslash{}\textbackslash{}mathrm\{Sol\})\$ Error'))
-\end{Verbatim}
-            
+\texttt{\color{outcolor}Out[{\color{outcolor}3}]:}
+    
     \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_5_1.png}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_5_0.png}
     \end{center}
     { \hspace*{\fill} \\}
     
+
+    \textbf{Figure 8.2:} Local cartesian coordinate system in a rotating
+reference frame on a planet with radius \(R\) and rotation rate
+\(\Omega\).
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+    \subsubsection{8.1.1 Force balance in the rotating
+frame}\label{force-balance-in-the-rotating-frame}
+
+Standing on the surface of the planet or floating in a balloon in the
+atmosphere, we study atmospheric motions from within a rotating
+reference frame. In this case, the equations of motion include both the
+direct forces and the \emph{inertial} (or 'fictitious') forces due to
+our rotating perspective. Newton's second law, \(m\vec{a} = \vec{F}\)
+can be written
+
+\begin{align}
+    m\vec{a} ~~~~~&= ~~~~~~~~~~~~~(\mathrm{Direct~forces}) ~~~~~~~~~~~~~~~~~~~~ + ~~~~~~~~(\mathrm{Inertial~forces}) \\
+    &= ~~~~~~~~~~~~~~~~~~~\vec{F}_\mathrm{direct} ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ + ~~~~~~~ \vec{F}_\mathrm{inertial} ~~~~ \\
+    &= ~~\vec{F}_\mathrm{gravity} + \vec{F}_\mathrm{pressure} + \vec{F}_\mathrm{friction}~~~~~~~~~~~+ ~~~ ~~~~\vec{F}_\mathrm{coriolis} + \vec{F}_\mathrm{centrifugal}
+\end{align}
+
+The first composite term (\(\vec{F}_\mathrm{direct}\)) on the right-hand
+side (RHS) contains all of the forces acting on the mass within the
+rotating system, including gravity, pressure, and friction. The second
+composite term on the RHS is the sum of two inertial forces: (1)
+\(\vec{F}_\mathrm{coriolis}\) is the Coriolis force, which arises due to
+conservation of angular momentum; (2) \(\vec{F}_\mathrm{centrifugal}\)
+is the centrifugal force, which acts in a direction perpendicular to the
+axis of rotation. Below, we untangle each of these forces, then develop
+approaches to estimating their relative magnitudes. We typically deal
+with accelerations, \(\vec{a} = \vec{F}/m\), which of course are forces
+per unit mass.
+
+    \subsubsection{8.1.2 Pressure gradient
+acceleration}\label{pressure-gradient-acceleration}
+
+We previously encountered the concept of \emph{hydrostatic balance},
+where gravity is balanced against the vertical pressure gradient.
+Horizontal pressure gradients also produce accelerations, directed from
+high to low pressure. For two air parcels with pressures \(p_1\) and
+\(p_2\), separated by a small distance \(dx\), the \emph{pressure
+gradient} is \(dp = p_2 - p_1\) and the acceleration is
+
+\begin{align}
+    a_x = -\frac{1}{\rho}\frac{dp}{dx}
+\end{align}
+
+where \(\rho\) is the local density (kg m\(^{-3}\)) of the fluid. The
+minus sign is necessary, because the acceleration is directed "down" the
+gradient, i.e. from high to low pressure (Fig. 8.3). Generalizing to
+three dimensions, the pressure gradient imparts an acceleration
+
+\begin{align}
+    \vec{a} &= -\frac{1}{\rho}\vec{\nabla}p \\
+    \mathrm{or} \\
+    (a_x, a_y, a_z) &= -\frac{1}{\rho}\left(\frac{\partial p}{\partial x}, \frac{\partial p}{\partial y}, \frac{\partial p}{\partial z} \right)
+\end{align}
+
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}70}]:} \PY{c+c1}{\PYZsh{} Function: ls2sol}
-         \PY{c+c1}{\PYZsh{} Purpose: convert Mars \PYZdq{}Lsubs\PYZdq{} to sol (day of year)}
-         \PY{c+c1}{\PYZsh{} Input: }
-         \PY{c+c1}{\PYZsh{}    ls = areocentric longitude of the Sun [array]}
-         \PY{c+c1}{\PYZsh{}    n = degree of polynomial fit [scalar]}
-         \PY{k}{def} \PY{n+nf}{ls2sol}\PY{p}{(}\PY{n}{ls}\PY{p}{,} \PY{n}{n}\PY{p}{)}\PY{p}{:}
-             \PY{c+c1}{\PYZsh{} data}
-             \PY{n}{lsdata} \PY{o}{=} \PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{30}\PY{p}{,}\PY{l+m+mi}{60}\PY{p}{,}\PY{l+m+mi}{90}\PY{p}{,}\PY{l+m+mi}{120}\PY{p}{,}\PY{l+m+mi}{150}\PY{p}{,}\PY{l+m+mi}{180}\PY{p}{,}\PY{l+m+mi}{210}\PY{p}{,}\PY{l+m+mi}{240}\PY{p}{,}\PY{l+m+mi}{270}\PY{p}{,}\PY{l+m+mi}{300}\PY{p}{,}\PY{l+m+mi}{330}\PY{p}{,}\PY{l+m+mi}{360}\PY{p}{)} \PY{c+c1}{\PYZsh{} L\PYZus{}s array}
-             \PY{n}{soldata} \PY{o}{=} \PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mf}{61.2}\PY{p}{,}\PY{l+m+mf}{126.6}\PY{p}{,}\PY{l+m+mf}{193.3}\PY{p}{,}\PY{l+m+mf}{257.8}\PY{p}{,}\PY{l+m+mf}{317.5}\PY{p}{,}\PY{l+m+mf}{371.9}\PY{p}{,}\PY{l+m+mf}{421.6}\PY{p}{,}\PY{l+m+mf}{468.5}\PY{p}{,}\PY{l+m+mf}{514.6}\PY{p}{,}\PY{l+m+mf}{562.0}\PY{p}{,}\PY{l+m+mf}{612.9}\PY{p}{,}\PY{l+m+mf}{668.6}\PY{p}{)} \PY{c+c1}{\PYZsh{} Sol array}
-             
-             \PY{c+c1}{\PYZsh{} polynomial fit}
-             \PY{n}{p} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{polyfit}\PY{p}{(}\PY{n}{lsdata}\PY{p}{,} \PY{n}{soldata}\PY{p}{,} \PY{n}{n}\PY{p}{)}
-             
-             \PY{c+c1}{\PYZsh{} sol for Ls input}
-             \PY{n}{sol} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{polyval}\PY{p}{(}\PY{n}{p}\PY{p}{,} \PY{n}{ls}\PY{p}{)}
-             
-             \PY{c+c1}{\PYZsh{} return result}
-             \PY{k}{return} \PY{n}{sol}
-             
+{\color{incolor}In [{\color{incolor}4}]:} \PY{n}{Image}\PY{p}{(}\PY{n}{filename}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{/Users/paha3326/main/Teaching/ASTR3720/hayne/lectures/lecture18/pressure\PYZhy{}gradient.png}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{width}\PY{o}{=}\PY{l+m+mi}{250}\PY{p}{)}
 \end{Verbatim}
 
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}84}]:} \PY{c+c1}{\PYZsh{} Test to find minimum n\PYZhy{}value}
-         \PY{k}{for} \PY{n}{n} \PY{o+ow}{in} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mf}{8.01}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{:}
-             \PY{n}{sol} \PY{o}{=} \PY{n}{ls2sol}\PY{p}{(}\PY{n}{ey}\PY{p}{,} \PY{n}{n}\PY{p}{)}
-             \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{ey}\PY{p}{,} \PY{n}{sol}\PY{o}{\PYZhy{}}\PY{n}{ey2}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{c+c1}{\PYZsh{} Difference of fit from data}
-             \PY{c+c1}{\PYZsh{} print RMS and max. error}
-             \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{n = }\PY{l+s+si}{\PYZob{}:d\PYZcb{}}\PY{l+s+s1}{, max. error = }\PY{l+s+si}{\PYZob{}:.2f\PYZcb{}}\PY{l+s+s1}{, }\PY{l+s+se}{\PYZbs{}}
-         \PY{l+s+s1}{          RMS error = }\PY{l+s+si}{\PYZob{}:.2f\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{int}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{,} \PYZbs{}
-                                              \PY{n}{np}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{sol}\PY{o}{\PYZhy{}}\PY{n}{ey2}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PYZbs{}
-                                              \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(} \PY{p}{(}\PY{n}{sol}\PY{o}{\PYZhy{}}\PY{n}{ey2}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{p}{)}\PY{p}{)}\PY{o}{/}\PY{n}{np}\PY{o}{.}\PY{n}{size}\PY{p}{(}\PY{n}{sol}\PY{p}{)} \PY{p}{)} \PY{p}{)}
-         
-         \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{ls}\PY{p}{,} \PY{n}{ls}\PY{o}{*}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}\PYZhy{}k}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-         \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{mathrm}\PY{l+s+si}{\PYZob{}L\PYZus{}s\PYZcb{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,} \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{Delta(}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{mathrm}\PY{l+s+si}{\PYZob{}Sol\PYZcb{}}\PY{l+s+s1}{)\PYZdl{} Error}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-n = 3, max. error = 6.46,           RMS error = 1.18
-n = 4, max. error = 1.51,           RMS error = 0.25
-n = 5, max. error = 0.60,           RMS error = 0.07
-n = 6, max. error = 0.23,           RMS error = 0.04
-n = 7, max. error = 0.09,           RMS error = 0.01
-n = 8, max. error = 0.03,           RMS error = 0.01
-
-    \end{Verbatim}
-
-\begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}84}]:} (Text(0.5,0,'\$\textbackslash{}\textbackslash{}mathrm\{L\_s\}\$'), Text(0,0.5,'\$\textbackslash{}\textbackslash{}Delta(\textbackslash{}\textbackslash{}mathrm\{Sol\})\$ Error'))
-\end{Verbatim}
-            
+\texttt{\color{outcolor}Out[{\color{outcolor}4}]:}
+    
     \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_7_2.png}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_9_0.png}
     \end{center}
     { \hspace*{\fill} \\}
     
+
+    \textbf{Figure 8.3:} Schematic representation of the pressure gradient
+force. 'H' and 'L' refer to high and low pressure regions, respectively.
+The pressure gradient in this case is negative, pointing in the opposite
+direction of the \(x\)-coordinate.
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+    \subsubsection{8.1.3 Centrifugal
+acceleration}\label{centrifugal-acceleration}
+
+Centrifugal accelerations occur due to the tendency of a moving object
+to keep to its "flight path" (i.e., Newton's First Law). In a rotating
+frame, a force must be applied to keep the object "stationary", which is
+really a curved path. For circular motion with angular velocity
+\(\Omega\) and radius \(r\), the centrifugal acceleration is
+
+\begin{align}
+    \vec{a}_\mathrm{centrif.} &= \Omega^2 \vec{r}
+\end{align}
+
+The formula above shows that the acceleration is directed away from the
+rotation axis. Examples of atmospheric phenomena where the centrifugal
+force is important include small-scale vortices, such as tornados and
+dust devils. In these cases, \(\vec{r}\) is the position vector from the
+center of the vortex.
+
+On larger scales, the centrifugal force due to planetary rotation may be
+important. In the case of an air parcel at latitude \(\phi\) and
+longitude \(\lambda\) on a planetary body with radius \(R\), the
+distance to the rotation axis is \(r = R\cos \phi\). The magnitude of
+the centrifugal acceleration is
+
+\begin{align}
+    a_\mathrm{centrif.} = \Omega^2 R\cos \phi
+\end{align}
+
+In vector form,
+
+\begin{align}
+    \vec{a}_\mathrm{centrif.} &= -\vec{\Omega} \times \left(\vec{\Omega} \times \vec{R}\right) \\
+    &= \Omega^2R \begin{pmatrix} \cos\phi\cos\lambda \\ ~\cos\phi \sin\lambda \\ 0 \end{pmatrix}
+\end{align}
+
+where
+\(\vec{R} = (x,y,z) = R(\cos\phi\cos\lambda, \cos\phi\sin\lambda, \sin\phi)\)
+is the radius vector from the planet's center to the air parcel, and
+\(\vec{\Omega} = (0, 0, \Omega)\) is the rotation vector. Again, we see
+from the above vector equation that the centrifugal acceleration is
+directed away from the planet's axis of rotation.
+
+The magnitude of the centrifugal force due to planetary rotation is
+\(\Omega^2 R\). This is typically small compared to \(g\). For example,
+on Earth, we have
+\(\Omega^2 R = (7.3\times 10^{-5}~\mathrm{s^{-1}})^2(6.4\times 10^6~\mathrm{m}) \approx 0.03\).
+Compared to \(g = 9.8~\mathrm{m~s^{-2}}\), this is a correction of order
+\(\Omega^2 R/g \sim 10^{-3}\).
+
+\paragraph{Planetary flattening}\label{planetary-flattening}
+
+When we measure the downward acceleration of "gravity" acting on a
+stationary mass \(m\) on the surface of the Earth, we are really
+measuring the sum of the gravitational acceleration and the centrifugal
+acceleration due to Earth's rotation. Therefore, we define \(\vec{g}'\)
+to include both forces:
+\(\vec{g}' = \vec{g} + \vec{a}_\mathrm{centrifugal}\). Which direction
+does \(\vec{g}'\) point? The answer is "down", of course. But we showed
+above that there is a component of \(\vec{g}'\) due to the centrifugal
+acceleration. Therefore, the "down" direction is the vector sum of the
+planet's gravitational acceleration and the centrifugal acceleration due
+to its rotation. At the equator, the \(g'\)-vector still points towards
+the center of the planet (Why?). At other latitudes, the \(g'\)-vector
+points slightly away from the direction towards the planet's center.
+This leads to \emph{polar flattening}, where the equator bulges outward
+relative to the poles (Fig. 8.4).
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{n}{Image}\PY{p}{(}\PY{n}{filename}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{/Users/paha3326/main/Teaching/ASTR3720/hayne/lectures/lecture18/polar\PYZhy{}flattening.png}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{width}\PY{o}{=}\PY{l+m+mi}{250}\PY{p}{)}
+\end{Verbatim}
+
+\texttt{\color{outcolor}Out[{\color{outcolor}5}]:}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_12_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    \textbf{Figure 8.4:} Polar flattening in a fluid planet occurs due to
+difference in the centrifugal acceleration
+(\(\vec{a}_\mathrm{centrif.}\)) from equator to pole. Near the pole,
+\(\vec{a}_\mathrm{centrif.}\) is directed tangential to the surface,
+while at the equator, it is normal to the surface.
+\(\vec{a}_\mathrm{centrif.}\) always points perpendicular to the axis of
+rotation, and is strongest at the equator. (Vector magnitudes are not to
+scale.)
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+    Flattening (also called: \emph{oblateness}, \emph{rotational
+ellipticity}) is measured as the polar compression relative to a sphere:
+
+\begin{align}
+    f_\mathrm{r} = \frac{A-C}{A}
+\end{align}
+
+where \(A\) and \(C\) are the equatorial and polar radii of the rotating
+planet, respectively. For a spherical planet, \(f_\mathrm{r} = 0\).
+Higher rotation rates lead to greater flattening, if the planet can
+deform to its potential surface. Gas giant planets are fluid, but
+terrestrial planets have some rigidity, which can resist flattening.
+Some values of \(f_\mathrm{r}\) for several planets are given in the
+table below.
+
+\begin{longtable}[]{@{}lccc@{}}
+\toprule
+Planet & Rotation Period (hr) & \(\Omega\) (rad s\(^{-1}\)) &
+\(f_\mathrm{r}\)\tabularnewline
+\midrule
+\endhead
+Mercury & 1408 & 1.2\(\times 10^{-6}\) & 0.0000\tabularnewline
+Venus & -5833 & -3.0\(\times 10^{-6}\) & 0.0000\tabularnewline
+Earth & 23.94 & 7.3\(\times 10^{-5}\) & 0.0034\tabularnewline
+Mars & 24.62 & 7.1\(\times 10^{-5}\) & 0.0059\tabularnewline
+Jupiter & 9.93 & 1.8\(\times 10^{-4}\) & 0.0649\tabularnewline
+Saturn & 10.66 & 1.6\(\times 10^{-4}\) & 0.0980\tabularnewline
+Uranus & -17.24 & -1.0\(\times 10^{-4}\) & 0.0229\tabularnewline
+Neptune & 16.11 & 1.1\(\times 10^{-4}\) & 0.0171\tabularnewline
+\bottomrule
+\end{longtable}
+
+    \subsubsection{8.1.4 Coriolis acceleration}\label{coriolis-acceleration}
+
+Coriolis forces arise due to conservation of angular momentum,
+\(\vec{L}\): displacements relative to the planet's rotation axis result
+in accelerations in order to keep \(\vec{L}\) constant in the inertial
+frame. The rotation vector \(\vec{\Omega}\) is aligned with the planet's
+spin axis and has magnitude equal to its angular velocity,
+\(\Omega = 2\pi/P\) (rad s\(^{-1}\)). Here, \(P\) is the planet's
+rotation period.
+
+As a simplified illustration of the Coriolis acceleration, consider the
+case shown in Fig. 8.5. Here, a mass moves towards the axis of rotation
+of a disk. We call the angular velocity of the mass \(\omega\) to
+distinguish it from the disk's angular velocity, \(\Omega\). Initially,
+\(\omega = \Omega\), but as the mass moves, its angular velocity changes
+in order to conserve angular momentum. The angular momentum of the mass
+\(m\) is \(L = mr^2\Omega\), and its rate of change is
+
+\begin{align}
+    \frac{dL}{dt} &= \frac{d}{dt}(mr^2\omega) \\
+    &= -2mr\omega v + mr^2\frac{d\omega}{dt} \\
+\end{align}
+
+where we used the fact that the \(dr/dt = -v\). Setting \(dL/dt = 0\)
+and \(\omega|_{t=0} = \Omega\), we have
+
+\begin{align}
+    2\Omega v &= r\frac{d\omega}{dt} \\
+    &= a_x
+\end{align}
+
+That is, the tangential acceleration \(a_x = du/dt = rd\omega/dt\) is
+equal to \(2\Omega v\). In other words, in the case where the velocity
+of the displaced mass is toward the axis of rotation, the Coriolis
+acceleration is tangential (and \emph{prograde}) to the circular motion.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}6}]:} \PY{n}{Image}\PY{p}{(}\PY{n}{filename}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{/Users/paha3326/main/Teaching/ASTR3720/hayne/lectures/lecture18/coriolis.png}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{width}\PY{o}{=}\PY{l+m+mi}{250}\PY{p}{)}
+\end{Verbatim}
+
+\texttt{\color{outcolor}Out[{\color{outcolor}6}]:}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_16_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    \textbf{Figure 8.5:} A simplified illustration of the Coriolis effect. A
+mass at the edge of a disk of radius \(r\) moves inward with initial
+velocity \(v\) and angular velocity \(\Omega\). The Coriolis force in
+this case is directed in the tangential direction, causing the mass to
+follow a curved path. In a similar way, poleward air flows in planetary
+atmospheres speed up in the zonal direction in order to conserve angular
+momentum.
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+    A similar, but more involved derivation shows that the Coriolis
+acceleration on a planetary body with rotation vector \(\vec{\Omega}\)
+is
+
+\begin{align}
+    \vec{a}_\mathrm{coriolis} = -2\vec{\Omega}\times\vec{v}
+\end{align}
+
+where \(\vec{v} = (u,v,w)\) is the velocity vector. The resultant
+accelerations are
+
+\begin{align}
+    a_x &= 2\Omega(\sin\phi~v - \cos\phi~w) \\
+    a_y &= -2\Omega\sin\phi~u \\
+    a_z &= 2\Omega\cos\phi~u
+\end{align}
+
+On length scales in planetary atmospheres where Coriolis forces are
+significant, the vertical component of the velocity, \(w\) is negligible
+compared to the horizontal components, \(u\) and \(v\). Also, the
+vertical component of the Coriolis acceleration, \(a_z\) is typically
+negligible compared to gravity. Defining the \emph{Coriolis parameter},
+\(f \equiv 2\Omega\sin\phi\), we have the simplified equations
+
+\begin{align}
+    a_x &= fv \\
+    a_y &= -fu \\
+    a_z &\approx 0 \\
+    \\
+    \mathrm{or} \\
+    \vec{a}_\mathrm{coriolis} &= f\begin{pmatrix} v \\ -u \\ 0 \end{pmatrix}
+\end{align}
+
+\subsubsection{8.1.5 Equations of motion in the rotating
+frame}\label{equations-of-motion-in-the-rotating-frame}
+
+From the force balance equations (Section 8.1.1) we can write the vector
+equation of motion for a fluid parcel in a rotating reference frame:
+
+\begin{align}
+    \vec{a} = \frac{d}{dt}\vec{v} &= ~~(\mathrm{gravity}) + (\mathrm{pressure}) + (\mathrm{friction})~~~~~~~~+ ~~~~~~~(\mathrm{Coriolis}) + (\mathrm{centrifugal}) \\
+    &= ~~~~~\vec{g} ~~~~~~~~~ - \frac{1}{\rho}\vec{\nabla}p ~~~~~~~~ + ~~\vec{a}_\mathrm{f}~~~~~~~~~~~~~~~~~- ~~~~~~~2\vec{\Omega}\times\vec{v} ~~~~- \vec{\Omega}\times(\vec{\Omega}\times\vec{R}) \\
+\end{align}
+
+For large-scale atmospheric motions, we can define the apparent gravity
+vector including the centrifugal acceleration, as described above. Since
+\(g'\) points opposite to the local vertical direction \(\hat{k}\), we
+have
+\(\vec{g}' = \vec{g} - \vec{\Omega}\times(\vec{\Omega}\times\vec{R}) = -g'\hat{k}\).
+In this case,
+
+\begin{align}
+    \frac{d\vec{v}}{dt} &= -g'\hat{k} - \frac{1}{\rho}\vec{\nabla}p - 2\vec{\Omega}\times\vec{v} + \vec{a}_\mathrm{f}
+\end{align}
+
+    \subsection{8.2 Balanced flow}\label{balanced-flow}
+
+Often we can neglect terms in the equations of motion, when their
+magnitudes are small compared to the dominant terms. For example, winds
+in the mid-latitudes of rapidly rotating planets, such as Earth, are
+dominated by Coriolis- and pressure-gradient accelerations. Slowly
+rotating planets, like Venus, tend to be dominated by centrifugal- and
+pressure-gradient forces. Friction tends to be important at smaller
+scales and near to the surface. Below, we discuss several important
+approximations for balanced flow.
+
+\subsubsection{8.2.1 Rossby number}\label{rossby-number}
+
+To estimate the importance of planetary rotation on the dynamics of a
+flow, we use the \emph{Rossby number}, which is the ratio of the net
+acceleration to the Coriolis acceleration:
+
+\begin{align}
+\operatorname{Ro} = \frac{\mathrm{Magnitude~of~net~acceleration}}{\mathrm{Magnitude~of~Coriolis~acceleration}}
+\end{align}
+
+A small Rossby number (i.e., \(\operatorname{Ro} \ll 1\)) indicates that
+Coriolis forces dominate the other terms in the force balance. We define
+characteristic dimensions of the flow feature (e.g., a tropical cyclone,
+tornado, or the jet stream), having horizontal length scale \(L\) and
+velocity \(U\). The time for the flow to cross the characteristic length
+scale is \(t \sim L/U\). The magnitude of the net acceleration is then
+\(|d\vec{v}/dt| \sim U/t = U^2/L\), and we can show that
+\(|\vec{a}_\mathrm{cor.}| \sim fU\). Therefore, the Rossby number is
+
+\begin{align}
+    \operatorname{Ro} = \frac{U^2/L}{fU} = \frac{U}{fL}
+\end{align}
+
+We see that the Rossby number increases towards the equator (since \(f\)
+decreases equator-ward), indicating that planetary rotation more
+strongly affects dynamics at higher latitudes. More explicitly,
+
+\begin{align}
+    \lim_{\phi \rightarrow 0^\circ} \operatorname{Ro} &= \infty ~~~~~\mathrm{(Coriolis~negligible)}\\
+    \lim_{\phi \rightarrow 90^\circ} \operatorname{Ro} &= \frac{U}{2\Omega L} ~~~~~(\mathrm{Coriolis~dominant~if} U<2\Omega L)
+\end{align}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{n}{Image}\PY{p}{(}\PY{n}{filename}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{/Users/paha3326/main/Teaching/ASTR3720/hayne/lectures/lecture18/pressure\PYZhy{}gradient\PYZus{}geostrophic.png}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{width}\PY{o}{=}\PY{l+m+mi}{400}\PY{p}{)}
+\end{Verbatim}
+
+\texttt{\color{outcolor}Out[{\color{outcolor}8}]:}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_20_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    \textbf{Figure 8.6:} Geostrophic flow around centers of low and high
+pressure in a planet's northern hemisphere. (A) Flow is initially down
+the pressure gradient, i.e., inward for the low-pressure system, and
+outward for the high-pressure system. (B) Coriolis forces divert winds
+to the right in the northern hemisphere. (C) Balance of the pressure
+gradient and Coriolis accelerations results in counter-clockwise
+(cyclonic) flow around the low-pressure system, and clockwise
+(anticyclonic) flow around the high-pressure system. Geostrophic winds
+between the two systems point with the lower pressure on the left.
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+    \subsubsection{8.2.2 Geostrophic balance}\label{geostrophic-balance}
+
+If a flow feature's horizontal scale \(L_\mathrm{h}\) is much larger
+than its vertical length scale \(L_\mathrm{v}\), then vertical
+accelerations can be neglected. This is the case for large-scale
+atmospheric motions on Earth, where
+\(H \sim L_\mathrm{v} \ll L_\mathrm{h} \sim R\), where \(R\) is the
+planetary radius and \(H\) is the scale height. Neglecting friction, the
+equations of motion simplify:
+
+\begin{align}
+    \frac{d\vec{v}}{dt} = \begin{pmatrix} \frac{du}{dt} \\ \frac{dv}{dt} \\ 0 \end{pmatrix} &= \begin{pmatrix} fv - \frac{1}{\rho}\frac{\partial p}{\partial x} \\ -fu - \frac{1}{\rho}\frac{\partial p}{\partial y} \\ -g - \frac{1}{\rho}\frac{\partial p}{\partial z} \end{pmatrix}
+\end{align}
+
+where again, \(f = 2\Omega\sin\phi\) is the Coriolis parameter. Note
+that the equation of vertical motion is reduced to hydrostatic balance:
+\(\partial p/\partial z = -\rho g\).
+
+Over the characteristic timescale \(L/U\), the net acceleration on a
+balanced flow is zero: \(du/dt = dv/dt = 0\). Provided the conditions
+\(\operatorname{Ro} \ll 1\) and \(L_\mathrm{v} \ll L_\mathrm{h}\) are
+met, the two horizontal equations of motion reduce to the geostrophic
+wind equations:
+
+\begin{align}
+    u_\mathrm{g} = -\frac{1}{f\rho}\frac{\partial p}{\partial y}, ~~~ v_\mathrm{g} = \frac{1}{f\rho}\frac{\partial p}{\partial x}
+\end{align}
+
+where the subscripts "\(\mathrm{g}\)" represent geostrophic flow. From
+these two simple equations, we can infer four properties of the
+geostrophic wind:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Flow is directed tangential to the pressure gradient.
+\item
+  The lower pressure is on the left of the wind vector in the northern
+  hemisphere.
+\item
+  Wind speed is proportional to the pressure gradient.
+\item
+  Wind speed increases toward the equator as \(f \rightarrow 0\).
+\end{enumerate}
+
+Figure 8.6 illustrates how flows develop around low- and high-pressure
+systems through geostrophic balance. Flows around low- and high-pressure
+systems are \emph{cyclonic} and \emph{anticyclonic}, respectively.
+Cyclonic flow is counter-clockwise in the northern hemisphere, and
+clockwise in the southern hemisphere. By measuring the wind velocity
+vectors of weather systems in geostrophic balance, we can infer pressure
+gradients (Fig. 8.7).
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}10}]:} \PY{n}{Image}\PY{p}{(}\PY{n}{filename}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{/Users/paha3326/main/Teaching/ASTR3720/hayne/lectures/lecture18/jupiter\PYZhy{}grs\PYZus{}neptune\PYZhy{}gds\PYZus{}winds.png}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{width}\PY{o}{=}\PY{l+m+mi}{500}\PY{p}{)}
+\end{Verbatim}
+
+\texttt{\color{outcolor}Out[{\color{outcolor}10}]:}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_23_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    \textbf{Figure 8.7} Vortices on giant planets: the "little red spot" on
+Jupiter (\emph{Cheng et al., 2008}) and Neptune's "great dark spot"
+(schematic). Both features are located at \(\sim 20^\circ\)S latitude on
+their respective planets, and have \(\operatorname{Ro} \ll 1\). Are
+these cyclonic or anticyclonic features? Do they have low- or
+high-pressure centers?
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+    \subsubsection{8.2.3 Cyclostrophic balance}\label{cyclostrophic-balance}
+
+A localized spinning air mass, such as a tornado, may by unaffected by
+planetary rotation (\(\operatorname{Ro} > 1\)) due to its small size.
+\emph{Cyclostrophic balance} occurs when a strong local pressure
+gradient is balanced against the centrifugal force. For a tornado with
+radius \(r\) and tangential wind speed \(v_\mathrm{t} = r\omega\),
+cyclostrophic balance implies
+
+\begin{align}
+    \frac{v_t^2}{r} = \omega^2 r = \frac{1}{\rho}\frac{\partial p}{\partial r}
+\end{align}
+
+For a given pressure drop, \(\delta p\) and scale, \(\delta r\) of the
+tornado, we can estimate the tangential velocity:
+
+\begin{align}
+    v_t \approx \sqrt{ \frac{\delta r}{\rho}\frac{\delta p}{\delta r} } \sim \sqrt{\frac{\delta p}{\rho}}
+\end{align}
+
+On a planetary scale, cyclostrophic balance occurs when the planetary
+Rossby number is large, and yet the atmosphere itelf rotates rapidly.
+For example, Venus' slow planetary rotation gives
+\(\operatorname{Ro} \sim 10\) for the mid-latitudes, yet its
+super-rotating atmosphere experiences signficant centrifugal forces.
+
 
     % Add a bibliography block to the postdoc
     
